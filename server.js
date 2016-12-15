@@ -24,18 +24,36 @@
 var express = require('express'),
     app = express(),
     server = require('http').createServer(app), //create server
-    io = require('socket.io').listen(server);// require socket.io and bink to server
+    io = require('socket.io').listen(server),// require socket.io and bink to server
+    users = [];//nickname array
+
 app.use('/', express.static(__dirname + '/chat'));//html file path
 server.listen(7070);
 
     //socket
-// io.on('connection', function(socket) {
-//     //接收并处理客户端发送的foo事件
-//     socket.on('foo', function(data) {
-//         //将消息输出到控制台
-//         // console.log(data);
-//     })
-// });
+io.on('connection', function(socket) {
+    //昵称设置
+    socket.on('login', function(nickname) {
+       if(users.indexOf(nickname) > -1){
+           socket.emit('nickExisted');
+       }else{
+           socket.userIndex = users.length;
+           socket.nickname = nickname;
+           users.push(nickname);
+           socket.emit('loginSuccess');
+           io.sockets.emit('system', nickname, users.length, 'login'); //向所有连接到服务器的客户端发送当前登陆用户的昵称
+       }
+    });
+
+    //断开连接的事件
+    socket.on('disconnect', function () {
+        users.splice(socket.userIndex, 1);//将断开连接的用户从users中删除
+        socket.broadcast.emit('system', socket.nickname, users.length, 'logout');//通知除自己以外的所有人
+    })
+
+});
+
+console.log(users);
 
 
 
