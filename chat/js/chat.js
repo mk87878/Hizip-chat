@@ -37,21 +37,38 @@ HiChat.prototype = {    //prototype:返回对象类型原型的引用,此处我�
             }
         });
 
+        //显示昵称被占用的提示
         this.socket.on('nickExisted',function () {
-            $('#info').html('昵称被占用');//显示昵称被占用的提示
+            $('#info').html('昵称被占用');
         });
 
+        //隐藏遮罩层显聊天界面
         this.socket.on('loginSuccess',function () {
             $(document).attr('title','Chat Name：' + $('#nicknameInput').val());
             $('#loginWrapper').css('display','none');//隐藏遮罩层显聊天界面
             $('#messageInput').focus();//让消息输入框获得焦点
         });
 
+        //将在线人数显示到页面顶部并判断用户是连接还是离开
         this.socket.on('system', function(nickName, userCount, type) {
             var msg = nickName + (type == 'login' ? ' 已加入' : ' 已离开');
-            $('<p>').appendTo($('#historyMsg')).html(msg);//判断用户是连接还是离开以显示不同的信息
+            that._displayNewMsg('system',msg,'red');
+            // $('<p>').appendTo($('#historyMsg')).html(msg);//判断用户是连接还是离开以显示不同的信息
             $('#status').html(userCount + '个用户在线');//将在线人数显示到页面顶部
         });
+    },
+
+    _displayNewMsg:function (user,msg,color) {
+        var container = $('#historyMsg'),
+            msgToDisplay = $('<p>'),
+            date = new Date().toTimeString().substr(0,8);
+        msgToDisplay.css({
+            color: color || '#000'
+        });
+        msgToDisplay.html(user + '<span class="time">(' + date + '): </span>'+ msg);
+        container.append(msgToDisplay);
+        container.scrollTop = container.scrollHeight;
+
 
     }
 };

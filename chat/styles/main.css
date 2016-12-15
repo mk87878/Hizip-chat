@@ -1,7 +1,7 @@
 html, body {
+    font: 13px/22px "Microsoft YaHei","Arial", "SimSun";
     margin: 0;
     background-color: #efefef;
-    font-family: sans-serif;
 }
 .wrapper {
     width: 500px;
@@ -47,8 +47,8 @@ html, body {
 #historyMsg img {
     max-width: 99%;
 }
-.timespan {
-    color: #ddd;
+.time {
+    color: #808080;
 }
 .items {
     height: 30px;
