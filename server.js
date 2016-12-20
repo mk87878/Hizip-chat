@@ -49,6 +49,12 @@ io.on('connection', function(socket) {
     socket.on('disconnect', function () {
         users.splice(socket.userIndex, 1);//将断开连接的用户从users中删除
         socket.broadcast.emit('system', socket.nickname, users.length, 'logout');//通知除自己以外的所有人
+    });
+
+    //接收新消息
+    socket.on('postMsg',function (msg) {
+        //将消息发送到除自己外的所有用户
+        socket.broadcast.emit('newMsg', socket.nickname, msg);
     })
 
 });
@@ -59,4 +65,4 @@ console.log(users);
 
 
 
-console.log('server started on localhost:7070');
+console.log('server started on 127.0.0.1:7070');

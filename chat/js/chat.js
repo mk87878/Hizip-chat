@@ -52,10 +52,26 @@ HiChat.prototype = {    //prototype:返回对象类型原型的引用,此处我�
         //将在线人数显示到页面顶部并判断用户是连接还是离开
         this.socket.on('system', function(nickName, userCount, type) {
             var msg = nickName + (type == 'login' ? ' 已加入' : ' 已离开');
-            that._displayNewMsg('system',msg,'red');
+            that._displayNewMsg('系统消息',msg,'red');
             // $('<p>').appendTo($('#historyMsg')).html(msg);//判断用户是连接还是离开以显示不同的信息
             $('#status').html(userCount + '个用户在线');//将在线人数显示到页面顶部
         });
+        //消息发送
+        $('#sendBtn').on('click',function () {
+            var messageInput = $('#messageInput'),
+                msg = messageInput.val();
+            messageInput.val('');
+            messageInput.focus();
+            if (msg.trim().length != 0){
+                that.socket.emit('postMsg', msg); //把消息发送到服务器
+                that._displayNewMsg('我',msg,'blue'); //把自己的消息显示到自己的窗口中
+            }
+        });
+
+        this.socket.on('newMsg', function (user, msg) {
+            that._displayNewMsg(user, msg);
+        });
+
     },
 
     _displayNewMsg:function (user,msg,color) {
