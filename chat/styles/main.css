@@ -16,11 +16,12 @@ html, body {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(5, 5, 5, .6);
-    text-align: center;
-    color: #fff;
     display: block;
     padding-top: 200px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(5, 5, 5, .6);
 }
 #nickWrapper {
     display: none;
@@ -34,15 +35,15 @@ html, body {
     display: inline-block;
 }
 .controls {
-    height: 100px;
-    margin: 5px 0px;
     position: relative;
+    height: 100px;
+    margin: 5px 0;
 }
 #historyMsg {
     height: 400px;
+    padding: 2px;
     background-color: #fff;
     overflow: auto;
-    padding: 2px;
 }
 #historyMsg img {
     max-width: 99%;
@@ -55,8 +56,8 @@ html, body {
 }
 #colorStyle {
     width: 50px;
-    border: none;
     padding: 0;
+    border: none;
 }
 /*custom the file input*/
 
@@ -73,11 +74,11 @@ html, body {
 /*end custom file input*/
 
 #messageInput {
+    float:left;
     width: 440px;
     max-width: 440px;
     height: 90px;
     max-height: 90px;
-    float:left;
 }
 #sendBtn {
     width: 50px;
